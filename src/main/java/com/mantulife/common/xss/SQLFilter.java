@@ -1,26 +1,25 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- * <p>
- * https://www.renren.io
- * <p>
- * 版权所有，侵权必究！
- */
-
 package com.mantulife.common.xss;
 
-import com.mantulife.common.exception.ImsException;
-import org.apache.commons.lang.StringUtils;
+import com.mantulife.common.exception.BusinessException;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 /**
- * SQL过滤
- *
- * @author Mark sunlightcs@gmail.com
- */
+ * Author W_wang
+ * Description SQL过滤
+ * Date 2019-07-29 10:14
+ **/
+@Slf4j
 public class SQLFilter {
+
+    private SQLFilter() {
+    }
 
     /**
      * SQL注入过滤
-     * @param str  待验证的字符串
+     *
+     * @param str 待验证的字符串
+     * @return  return return
      */
     public static String sqlInject(String str) {
         if (StringUtils.isBlank(str)) {
@@ -41,7 +40,7 @@ public class SQLFilter {
         //判断是否包含非法字符
         for (String keyword : keywords) {
             if (str.indexOf(keyword) != -1) {
-                throw new ImsException(1000, "包含非法字符");
+                throw new BusinessException("sql包含非法字符");
             }
         }
 

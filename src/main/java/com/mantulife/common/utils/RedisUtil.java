@@ -15,18 +15,18 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author W_wang
- * @version V1.0
- * @remark Redis 工具类
- * @email 1352255400@qq.com
- * @date 2020/8/4 17:22
- * @Copyright www.mantulife.com
+ * author W_wang
+ * version V1.0
+ * remark Redis 工具类
+ * email 1352255400@qq.com
+ * date 2020/8/4 17:22
+ * Copyright www.dx.com
  */
 @Component
 public class RedisUtil {
 
     //缓存前缀
-    @Value("${spring.redis.key-prefix:xinchao-ims}")
+    @Value("${spring.redis.key-prefix:oa:}")
     String prefixKey;
 
     @Resource
@@ -101,6 +101,13 @@ public class RedisUtil {
         return stringRedisTemplate.hasKey(key);
     }
 
+    // redis 获取redis时间
+    public Long getExpire(String key) {
+        key = prefixKey + key;
+        return stringRedisTemplate.getExpire(key);
+    }
+
+    // redis 续期
     public Boolean expire(String key, int seconds) {
         key = prefixKey + key;
         return stringRedisTemplate.expire(key, seconds, TimeUnit.SECONDS);

@@ -1,82 +1,93 @@
 package com.mantulife.common.utils;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.io.Serializable;
 
 /**
- * @author W_wang
- * @version V1.0
- * @remark 统一返回结果的类
- * @email 1352255400@qq.com
- * @date 2020/8/4 17:22
- * @Copyright www.mantulife.com
+ * 响应信息主体
+ *
+ * author ruoyi
+ *  public R  logout(HttpServletRequest request)
  */
-@Data
-public class R {
+public class R<T> implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "是否成功")
-    private Boolean success;
+    /**
+     * 成功
+     */
+    public static final int SUCCESS = 0;
 
-    @ApiModelProperty(value = "返回码")
-    private Integer code;
+    /**
+     * 失败
+     */
+    public static final int FAIL = 1000;
 
-    @ApiModelProperty(value = "返回消息")
+    private int code;
+
     private String msg;
 
-    @ApiModelProperty(value = "返回数据")
-    private Map<String, Object> data = new LinkedHashMap<>();
+    private T data;
 
-    public static Integer SUCCESS = 0; //成功
-
-    public static Integer ERROR = 1000; //失败
-
-    //把构造方法私有
-    private R() {
+    public static <T> R<T> ok() {
+        return restResult(null, SUCCESS, null);
     }
 
-    //成功静态方法
-    public static R ok() {
-        R r = new R();
-        r.setSuccess(true);
-        r.setCode(SUCCESS);
-        r.setMsg("成功");
-        return r;
+    public static <T> R<T> ok(T data) {
+        return restResult(data, SUCCESS, null);
     }
 
-    //失败静态方法
-    public static R error() {
-        R r = new R();
-        r.setSuccess(false);
-        r.setCode(ERROR);
-        r.setMsg("失败");
-        return r;
+    public static <T> R<T> ok(T data, String msg) {
+        return restResult(data, SUCCESS, msg);
     }
 
-    public R success(Boolean success) {
-        this.setSuccess(success);
-        return this;
+    public static <T> R<T> error() {
+        return restResult(null, FAIL, null);
     }
 
-    public R message(String message) {
-        this.setMsg(message);
-        return this;
+    public static <T> R<T> error(String msg) {
+        return restResult(null, FAIL, msg);
     }
 
-    public R code(Integer code) {
-        this.setCode(code);
-        return this;
+    public static <T> R<T> error(T data) {
+        return restResult(data, FAIL, null);
     }
 
-    public R data(String key, Object value) {
-        this.data.put(key, value);
-        return this;
+    public static <T> R<T> error(T data, String msg) {
+        return restResult(data, FAIL, msg);
     }
 
-    public R data(Map<String, Object> map) {
-        this.setData(map);
-        return this;
+    public static <T> R<T> error(int code, String msg) {
+        return restResult(null, code, msg);
+    }
+
+    private static <T> R<T> restResult(T data, int code, String msg) {
+        R<T> apiResult = new R<>();
+        apiResult.setCode(code);
+        apiResult.setData(data);
+        apiResult.setMsg(msg);
+        return apiResult;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 }

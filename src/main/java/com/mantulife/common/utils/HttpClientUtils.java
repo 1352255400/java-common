@@ -14,19 +14,25 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
-/*
- * @description this is description
- * @author shengxiaohu
- * @create 2018-07-09 18:55
- */
+/**
+ * Author W_wang
+ * Description HttpClientUtils 工具类
+ * Date 2019-07-29 10:14
+ **/
 public class HttpClientUtils {
+
+    private HttpClientUtils() {
+    }
 
     /**
      *
-     * @param url url
-     * @return response
+     * Author W_wang
+     * Description get请求
+     * Date 2019-07-29 10:14
+     * @param url URL
+     * @return  return string
      */
-    public static String doGet(String url){
+    public static String doGet(String url) {
         // 创建Httpclient对象
         CloseableHttpClient httpclient = HttpClients.createDefault();
         // 创建http GET请求
@@ -63,10 +69,14 @@ public class HttpClientUtils {
 
     /**
      *
-     * @param url url
-     * @return response
+     * Author W_wang
+     * Description get请求
+     * Date 2019-07-29 10:14
+     * @param url 地址
+     * @param headerMap header头
+     * @return  return string
      */
-    public static String doGet(String url, Map<String, String> headerMap){
+    public static String doGet(String url, Map<String, String> headerMap) {
         // 创建Httpclient对象
         CloseableHttpClient httpclient = HttpClients.createDefault();
         // 创建http GET请求
@@ -113,18 +123,21 @@ public class HttpClientUtils {
 
 
     /**
-     * post 请求 json格式
-     * @param url u
-     * @param params p
-     * @return content
+     *
+     * Author W_wang
+     * Description post 请求 json格式
+     * Date 2019-07-29 10:14
+     * @param url url
+     * @param params params
+     * @return  return params
      */
-    public static String doPost(String url, Map<String, Object> params){
+    public static String doPost(String url, Map<String, Object> params) {
 
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpPost method = new HttpPost(url);
 
-        if(params != null){
-            StringEntity entity = new StringEntity(JSON.toJSONString(params),"utf-8");//解决中文乱码问题
+        if (params != null) {
+            StringEntity entity = new StringEntity(JSON.toJSONString(params), "utf-8");//解决中文乱码问题
             entity.setContentEncoding("UTF-8");
             entity.setContentType("application/json");
             method.setEntity(entity);
@@ -158,19 +171,22 @@ public class HttpClientUtils {
 
 
     /**
-     * post 请求 json格式
-     * @param url u
-     * @param json p
-     * @return content
+     *
+     * Author W_wang
+     * Description post 请求 json格式
+     * Date 2019-07-29 10:14
+     * @param url url
+     * @param json url
+     * @return  return url
      */
-    public static String doPost(String url, String json){
+    public static String doPost(String url, String json) {
 
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpPost method = new HttpPost(url);
 
-        if(json != null){
+        if (json != null) {
             //解决中文乱码问题
-            StringEntity entity = new StringEntity(json,"utf-8");
+            StringEntity entity = new StringEntity(json, "utf-8");
             entity.setContentEncoding("UTF-8");
             entity.setContentType("application/json");
             method.setEntity(entity);

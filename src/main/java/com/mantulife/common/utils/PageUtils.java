@@ -1,133 +1,29 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- * <p>
- * https://www.renren.io
- * <p>
- * 版权所有，侵权必究！
- */
-
 package com.mantulife.common.utils;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-
-import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+
 /**
- * 分页工具类
- *
- * @author Mark sunlightcs@gmail.com
+ * author W_wang
+ * version V1.0
+ * remark 分页工具类
+ * email 1352255400@qq.com
+ * date 2020/8/4 17:22
  */
-public class PageUtils implements Serializable {
-    private static final long serialVersionUID = 1L;
-    /**
-     * 总记录数
-     */
-    private int totalCount;
-    /**
-     * 每页记录数
-     */
-    private int pageSize;
-    /**
-     * 总页数
-     */
-    private int totalPage;
-    /**
-     * 当前页数
-     */
-    private int currPage;
-    /**
-     * 列表数据
-     */
-    private List<?> list;
+public class PageUtils {
 
-    /**
-     * 分页
-     *
-     * @param list       列表数据
-     * @param totalCount 总记录数
-     * @param pageSize   每页记录数
-     * @param currPage   当前页数
-     */
-    public PageUtils(List<?> list, int totalCount, int pageSize, int currPage) {
-        this.list = list;
-        this.totalCount = totalCount;
-        this.pageSize = pageSize;
-        this.currPage = currPage;
-        this.totalPage = (int) Math.ceil((double) totalCount / pageSize);
-    }
-
-    /**
-     * 分页
-     */
-    public PageUtils(IPage<?> page) {
-        this.list = page.getRecords();
-        this.totalCount = (int) page.getTotal();
-        this.pageSize = (int) page.getSize();
-        this.currPage = (int) page.getCurrent();
-        this.totalPage = (int) page.getPages();
-    }
-
-    public int getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public int getTotalPage() {
-        return totalPage;
-    }
-
-    public void setTotalPage(int totalPage) {
-        this.totalPage = totalPage;
-    }
-
-    public int getCurrPage() {
-        return currPage;
-    }
-
-    public void setCurrPage(int currPage) {
-        this.currPage = currPage;
-    }
-
-    public List<?> getList() {
-        return list;
-    }
-
-    public Map<String, Object> getPage() {
-        //将数据填充到map中
-        Map map = new HashMap();
-        map.put("totalCount", (int) this.getTotalCount());
-        map.put("pageSize", (int) this.getPageSize());
-        map.put("currPage", (int) this.getCurrPage());
-        map.put("totalPage", (int) this.getTotalPage());
-        return map;
+    private PageUtils() {
     }
 
     //自定义分页W_wang
     public static Map<String, Object> pageNation(Long total, Long page, Long limit) {
-        Map map = new HashMap();
-        map.put("page", page);
+        limit = limit != null && limit > 0 ? limit : 1;
+        Map<String, Object> map = new HashMap<>();
+        map.put("pageNumber", page);
         map.put("pageSize", limit);
-        map.put("totalCount", total);
-        map.put("totalPage", (int) Math.ceil((double) total / limit));
+        map.put("totalRecords", total);
+        map.put("totalPages", (int) Math.ceil((double) total / limit));
         return map;
     }
-
-    public void setList(List<?> list) {
-        this.list = list;
-    }
-
 }
